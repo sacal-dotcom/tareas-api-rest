@@ -48,7 +48,14 @@ public class TareaController {
     // POST /tareas → crea una nueva tarea. El servidor asigna el id (ignora el enviado por el cliente) y responde 201
     @PostMapping
     public ResponseEntity<Tarea> crear(@RequestBody Tarea nueva) {
-        nueva.setId(siguienteId++);
+        int maxId = 0;
+        for (Tarea t : tareas) {
+            if (t.getId() > maxId) {
+                maxId = t.getId();
+            }
+        }
+        int nuevoId = maxId + 1;
+        nueva.setId(nuevoId);
         tareas.add(nueva);
         return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
     }

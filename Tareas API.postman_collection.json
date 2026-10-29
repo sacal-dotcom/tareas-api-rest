@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "Tareas API",
+    "description": "Colección de pruebas para la API REST CRUD de gestión de tareas (Sesión 4 - Java con Spring Boot). Base URL: http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "00000000-0000-0000-0000-000000000001"
+  },
+  "item": [
+    {
+      "name": "Listar tareas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas"]
+        },
+        "description": "GET /tareas → 200"
+      }
+    },
+    {
+      "name": "Crear tarea",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Estudiar REST\",\n  \"completada\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tareas",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas"]
+        },
+        "description": "POST /tareas → 201 (id 4). El id se ignora y lo asigna el servidor."
+      }
+    },
+    {
+      "name": "Obtener tarea por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/4",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "4"]
+        },
+        "description": "GET /tareas/4 → 200"
+      }
+    },
+    {
+      "name": "Actualizar tarea",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Estudiar REST\",\n  \"completada\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tareas/4",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "4"]
+        },
+        "description": "PUT /tareas/4 → 200 (actualiza título y completada, no el id)"
+      }
+    },
+    {
+      "name": "Eliminar tarea",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/4",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "4"]
+        },
+        "description": "DELETE /tareas/4 → 204"
+      }
+    },
+    {
+      "name": "Obtener tarea inexistente (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/4",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "4"]
+        },
+        "description": "GET /tareas/4 → 404 (ya eliminada)"
+      }
+    },
+    {
+      "name": "Eliminar tarea inexistente (404)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/4",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "4"]
+        },
+        "description": "DELETE /tareas/4 → 404 (ya eliminada)"
+      }
+    },
+    {
+      "name": "Tareas pendientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/pendientes",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "pendientes"]
+        },
+        "description": "GET /tareas/pendientes → 200 (solo completada == false)"
+      }
+    },
+    {
+      "name": "Marcar tarea como completada",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/1/completar",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "1", "completar"]
+        },
+        "description": "PUT /tareas/1/completar → 200 (sin cuerpo, marca completada=true)"
+      }
+    },
+    {
+      "name": "Buscar tarea por texto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tareas/buscar/java",
+          "host": ["{{baseUrl}}"],
+          "path": ["tareas", "buscar", "java"]
+        },
+        "description": "GET /tareas/buscar/java → 200 (título contiene 'java', sin distinguir mayúsculas)"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "description": "URL base de la API"
+    }
+  ]
+}

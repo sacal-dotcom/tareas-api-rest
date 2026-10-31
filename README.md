@@ -1,52 +1,40 @@
-# tareas
+﻿# Tareas API REST CRUD
 
-API REST CRUD de gestión de tareas desarrollada con **Java 21** y **Spring Boot** (Sesión 4: "Java con Spring Boot").
+## ¿Qué es el proyecto?
 
-## ¿Qué es?
-
-Es una API REST sencilla para crear, listar, obtener, actualizar y eliminar tareas. Cada tarea tiene un identificador (`id`), un `titulo` y un estado `completada`.
+API REST CRUD para gestión de tareas desarrollada con Spring Boot 3.5.4 y Java 21. Permite crear, listar, obtener, actualizar y eliminar tareas, además de operaciones adicionales: listar pendientes, marcar como completada y buscar por texto.
 
 ## Requisitos
 
 - JDK 21
-- Maven (se incluye el wrapper `./mvnw`)
 
-## Cómo ejecutar
+## Cómo ejecutarlo
 
-Desde la raíz del proyecto:
-
-```powershell
+```bash
 .\mvnw.cmd spring-boot:run
 ```
 
-La aplicación se iniciará en `http://localhost:8080`.
-
-Para construir el JAR:
-
-```powershell
-.\mvnw.cmd clean package
-```
+Por defecto la aplicación se ejecuta en el puerto `8080`.
 
 ## Endpoints
 
-| Método | Ruta | Cuerpo (request) | Código de respuesta |
-|--------|------|------------------|---------------------|
-| GET | /tareas | - | 200 |
-| GET | /tareas/{id} | - | 200 / 404 |
-| POST | /tareas | `{"titulo":"...","completada":true/false}` | 201 |
-| PUT | /tareas/{id} | `{"titulo":"...","completada":true/false}` | 200 / 404 |
-| DELETE | /tareas/{id} | - | 204 / 404 |
-| GET | /tareas/pendientes | - | 200 |
-| PUT | /tareas/{id}/completar | - | 200 / 404 |
-| GET | /tareas/buscar/{texto} | - | 200 |
+| Método | Ruta | Cuerpo de ejemplo | Códigos de respuesta | Descripción |
+|---|---|---|---|---|
+| GET | /tareas | - | 200 OK | Listar todas las tareas |
+| POST | /tareas | `{"titulo": "Estudiar REST", "completada": false}` | 201 Created | Crear tarea (el servidor asigna el id) |
+| GET | /tareas/{id} | - | 200 OK, 404 Not Found | Obtener tarea por id |
+| PUT | /tareas/{id} | `{"titulo": "Estudiar REST", "completada": true}` | 200 OK, 404 Not Found | Actualizar título y completada (no el id) |
+| DELETE | /tareas/{id} | - | 204 No Content, 404 Not Found | Eliminar tarea |
+| GET | /tareas/pendientes | - | 200 OK | Listar tareas no completadas |
+| PUT | /tareas/{id}/completar | - | 200 OK, 404 Not Found | Marcar tarea como completada (sin cuerpo) |
+| GET | /tareas/buscar/{texto} | - | 200 OK | Buscar tareas cuyo título contiene el texto (sin distinguir mayúsculas/minúsculas) |
 
-### Notas importantes
+## Cómo importar la colección de Postman
 
-- El `id` lo asigna siempre el servidor (`siguienteId++`); en POST el id enviado por el cliente se ignora.
-- En PUT solo se actualizan `titulo` y `completada`; el `id` no se modifica.
-- Los datos viven **únicamente en memoria** (un `ArrayList` en el controlador). Al reiniciar la aplicación se pierden y se cargan las 3 tareas de ejemplo iniciales.
-- No hay base de datos, servicios, repositorios ni validaciones con anotaciones.
+1. Abrir Postman
+2. Importar `Tareas API.postman_collection.json`
+3. La colección usa la variable `{{baseUrl}}` con valor `http://localhost:8080` (puede modificarse según el entorno)
 
-## Archivos de prueba
+## Nota
 
-- `Tareas API.postman_collection.json`: colección de Postman (formato v2.1) con las 10 peticiones (secuencia de verificación más los 3 ejercicios autónomos), usando la URL base `http://localhost:8080` y el encabezado `Content-Type: application/json` en las que llevan cuerpo.
+Los datos viven solo en memoria. Al reiniciar la aplicación se restauran las tareas iniciales.
